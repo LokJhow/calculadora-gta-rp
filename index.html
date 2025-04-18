@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Vendas de Baseados</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary-color: #27ae60;
+            --secondary-color: #2ecc71;
+            --dark-color: #1c2833;
+            --light-color: #ecf0f1;
+            --accent-color: #8e44ad;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --info-color: #3498db;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --border-radius: 10px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #8e44ad, #3498db);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--dark-color);
+        }
+        
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--dark-color);
+            margin-bottom: 30px;
+            font-size: 28px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        h1:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+        
+        .form-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .form-section h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-section h2:before {
+            content: '🌿';
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: var(--border-radius);
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.2);
+        }
+        
+        button {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            font-family: 'Poppins', sans-serif;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .results {
+            margin-top: 30px;
+        }
+        
+        .results h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--dark-color);
+        }
+        
+        .gasto-card {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        
+        .gasto-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .gasto-valor {
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        
+        .comparison-table th, 
+        .comparison-table td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .comparison-table th {
+            background-color: var(--dark-color);
+            color: white;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .preco-min {
+            background-color: #fff5f5;
+        }
+        
+        .preco-max {
+            background-color: #f0fff4;
+        }
+        
+        .valor-destaque {
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .lucro-min {
+            color: #e74c3c;
+        }
+        
+        .lucro-max {
+            color: #27ae60;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: rgba(0,0,0,0.5);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        
+        .card-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        .price-tag {
+            position: relative;
+            padding: 5px 15px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+        
+        .min-tag {
+            background-color: #ffecec;
+            color: #e74c3c;
+        }
+        
+        .max-tag {
+            background-color: #e6ffe6;
+            color: #27ae60;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .gasto-valor {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>GTA RP - Calculadora de Tráfico</h1>
+        
+        <div class="form-section">
+            <h2>Dados de Produção</h2>
+            
+            <div class="form-group">
+                <label for="custoSeda">Custo por papel seda (R$):</label>
+                <input type="number" id="custoSeda" value="100">
+            </div>
+            
+            <div class="form-group">
+                <label for="quantidade">Quantidade de baseados:</label>
+                <input type="number" id="quantidade" value="250">
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <h2>Preços de Venda</h2>
+            
+            <div class="form-group">
+                <label for="precoMin">Preço de venda mínimo (R$):</label>
+                <input type="number" id="precoMin" value="200">
+            </div>
+            
+            <div class="form-group">
+                <label for="precoMax">Preço de venda máximo (R$):</label>
+                <input type="number" id="precoMax" value="250">
+            </div>
+        </div>
+        
+        <button onclick="calcular()">Calcular Operação</button>
+        
+        <div class="results">
+            <h2>Resultado da Operação</h2>
+            
+            <div class="gasto-card">
+                <div class="card-header">
+                    <span class="card-icon">💰</span>
+                    <h3>Investimento Inicial</h3>
+                </div>
+                <div class="gasto-valor">R$ <span id="gastoTotal">25.000</span></div>
+                <p>Custo total em papel seda</p>
+            </div>
+            
+            <table class="comparison-table">
+                <tr>
+                    <th>Detalhes</th>
+                    <th>Preço Mínimo</th>
+                    <th>Preço Máximo</th>
+                </tr>
+                <tr>
+                    <td>Preço unitário</td>
+                    <td class="preco-min">
+                        <span class="price-tag min-tag">R$ <span id="precoUnitarioMin">200</span></span>
+                    </td>
+                    <td class="preco-max">
+                        <span class="price-tag max-tag">R$ <span id="precoUnitarioMax">250</span></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Venda Total</td>
+                    <td class="preco-min valor-destaque">R$ <span id="vendaMinima">50.000</span></td>
+                    <td class="preco-max valor-destaque">R$ <span id="vendaMaxima">62.500</span></td>
+                </tr>
+                <tr>
+                    <td>Lucro Final</td>
+                    <td class="preco-min valor-destaque lucro-min">R$ <span id="lucroMinimo">25.000</span></td>
+                    <td class="preco-max valor-destaque lucro-max">R$ <span id="lucroMaximo">37.500</span></td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="footer">
+            <p>Desenvolvido exclusivamente para uso no GTA RP. Planilha de controle de facção.</p>
+        </div>
+    </div>
+
+    <script>
+        // Função para formatar números como moeda brasileira
+        function formatarMoeda(valor) {
+            return valor.toLocaleString('pt-BR');
+        }
+        
+        // Calcular os resultados iniciais ao carregar a página
+        window.onload = function() {
+            calcular();
+        };
+        
+        function calcular() {
+            // Obter valores do formulário
+            const custoSeda = parseFloat(document.getElementById('custoSeda').value);
+            const quantidade = parseInt(document.getElementById('quantidade').value);
+            const precoMin = parseFloat(document.getElementById('precoMin').value);
+            const precoMax = parseFloat(document.getElementById('precoMax').value);
+            
+            // Calcular gasto total
+            const gastoTotal = custoSeda * quantidade;
+            
+            // Calcular venda total e lucro para preço mínimo
+            const vendaMinima = precoMin * quantidade;
+            const lucroMinimo = vendaMinima - gastoTotal;
+            
+            // Calcular venda total e lucro para preço máximo
+            const vendaMaxima = precoMax * quantidade;
+            const lucroMaximo = vendaMaxima - gastoTotal;
+            
+            // Atualizar resultados na tabela
+            document.getElementById('gastoTotal').textContent = formatarMoeda(gastoTotal);
+            document.getElementById('precoUnitarioMin').textContent = formatarMoeda(precoMin);
+            document.getElementById('precoUnitarioMax').textContent = formatarMoeda(precoMax);
+            document.getElementById('vendaMinima').textContent = formatarMoeda(vendaMinima);
+            document.getElementById('vendaMaxima').textContent = formatarMoeda(vendaMaxima);
+            document.getElementById('lucroMinimo').textContent = formatarMoeda(lucroMinimo);
+            document.getElementById('lucroMaximo').textContent = formatarMoeda(lucroMaximo);
+        }
+    </script>
+</body>
+</html>
