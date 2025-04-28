@@ -311,8 +311,8 @@
     <div class="container">
         <header>
             <div class="decoration decoration-1"></div>
-            <h1 class="logo">EL CARTEL SOVIETICO</h1>
-            <p class="subtitle">CALCULADORA DE DROGAS</p>
+            <h1 class="logo">EL CARTEL SOVIETO</h1>
+            <p class="subtitle">CALCULADORA DE LUCROS</p>
             <div class="decoration decoration-2"></div>
         </header>
 
@@ -325,7 +325,7 @@
             <div class="expense-section">
                 <h2><span class="icon">💰</span> GASTOS</h2>
                 <div class="result-item">
-                    <div class="result-label">Gasto Total (Papel Seda/ZipLock):</div>
+                    <div class="result-label">Gasto Total (Papel Seda):</div>
                     <div class="value cost" id="cost-total">R$ 1.000,00</div>
                 </div>
             </div>
@@ -359,7 +359,7 @@
             <div class="weight-section">
                 <h2><span class="icon">🎒</span> PESO NA MOCHILA</h2>
                 <div class="weight-item">
-                    <div class="result-label">Peso Total:</div>
+                    <div class="result-label">Peso Total :</div>
                     <div class="weight-value" id="weight">2,5 kg</div>
                 </div>
             </div>
@@ -388,6 +388,8 @@
             const totalRevenueMax = quantity * maxSellPrice;
             const totalProfitMin = totalRevenueMin - totalCost;
             const totalProfitMax = totalRevenueMax - totalCost;
+            
+            // Cálculo de peso com formatação correta
             const totalWeight = quantity * weightPerItem;
             
             // Atualizar os valores na interface
@@ -399,7 +401,9 @@
             document.getElementById('revenue-max').textContent = `R$ ${totalRevenueMax.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
             document.getElementById('profit-max').textContent = `R$ ${totalProfitMax.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
             
-            document.getElementById('weight').textContent = `${totalWeight.toLocaleString('pt-BR', {minimumFractionDigits: 1, maximumFractionDigits: 1})} kg`;
+            // Garantir que o peso mostre exatamente o valor correto com 2 casas decimais fixas
+            const formattedWeight = totalWeight.toFixed(2).replace('.', ',');
+            document.getElementById('weight').textContent = `${formattedWeight} kg`;
         }
         
         // Calcular inicialmente
